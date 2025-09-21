@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Table(name = "\"order\"")
@@ -13,6 +12,7 @@ import java.util.List;
 @Setter
 public class Order {
     @Id
+    @Column(name = "order_guid", unique = true)
     private String orderGuid;
     private String customerName;
     private Instant createdAt;
