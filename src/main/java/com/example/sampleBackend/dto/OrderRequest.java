@@ -1,5 +1,6 @@
 package com.example.sampleBackend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ public class OrderRequest {
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class ItemRequest {
         private String productId;
         private int quantity;

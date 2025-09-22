@@ -4,8 +4,10 @@ import com.example.sampleBackend.dto.OrderRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Util {
-    private static final Logger logger = LoggerFactory.getLogger(Util.class);
+import java.util.UUID;
+
+public class RequestValidator {
+    private static final Logger logger = LoggerFactory.getLogger(RequestValidator.class);
     public static boolean isValidOrderRequest(OrderRequest request) {
         if (request == null) {
             logger.error("request is null");
@@ -13,6 +15,10 @@ public class Util {
         }
         if (request.getOrderGuid() == null || request.getOrderGuid().isBlank()){
             logger.error("orderGuid is null or blank");
+            return false;
+        }
+        if(!isValidGuid(request.getOrderGuid())) {
+            logger.error("orderGuid is not a valid UUID");
             return false;
         }
         if (request.getCustomerName() == null || request.getCustomerName().isBlank()) {
@@ -34,5 +40,15 @@ public class Util {
             }
         }
         return true;
+    }
+
+    public static boolean isValidGuid(String guid) {
+        if (guid == null) return false;
+        try {
+            UUID.fromString(guid);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }

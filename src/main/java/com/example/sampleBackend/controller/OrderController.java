@@ -6,7 +6,7 @@ import com.example.sampleBackend.model.Item;
 import com.example.sampleBackend.model.ItemId;
 import com.example.sampleBackend.model.Order;
 import com.example.sampleBackend.service.OrderService;
-import com.example.sampleBackend.utils.Util;
+import com.example.sampleBackend.utils.RequestValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
-        if(!Util.isValidOrderRequest(request)) {
+        if(!RequestValidator.isValidOrderRequest(request)) {
             return ResponseEntity.badRequest().body("Invalid order request");
         }
         Order order = new Order();
