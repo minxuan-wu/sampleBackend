@@ -12,7 +12,6 @@ import java.time.Instant;
 @Setter
 public class Order {
     @Id
-    @PrimaryKeyJoinColumn
     @Column(name = "order_guid", unique = true)
     private String orderGuid;
     private String customerName;

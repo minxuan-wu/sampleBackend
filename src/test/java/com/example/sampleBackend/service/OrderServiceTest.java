@@ -44,13 +44,14 @@ class OrderServiceTest {
     @Test
     void saveOrderAndItems_duplicateOrderGuid_throwsIllegalArgumentException() {
         Order order = new Order();
+        order.setOrderGuid("duplicate-guid");
         List<Item> items = List.of(new Item());
-        when(orderRepository.save(order)).thenThrow(new DataIntegrityViolationException("duplicate"));
+        when(orderRepository.existsById(order.getOrderGuid())).thenReturn(true);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> orderService.saveOrderAndItems(order, items));
-        assertEquals("Order with this guid already exists.", ex.getMessage());
-        verify(orderRepository).save(order);
+        assertEquals("Order with this GUID already exists.", ex.getMessage());
+        verify(orderRepository, never()).save(any());
         verify(itemRepository, never()).saveAll(any());
     }
 

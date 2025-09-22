@@ -29,12 +29,11 @@ public class OrderService {
 
     @Transactional
     public void saveOrderAndItems(Order order, List<Item> items) {
-        try {
-            orderRepository.save(order);
-        } catch (DataIntegrityViolationException e) {
-            logger.error("Failed to insert order as guid duplicated: {}", e.getMessage(), e);
-            throw new IllegalArgumentException("Order with this guid already exists.");
+        if (orderRepository.existsById(order.getOrderGuid())) {
+            logger.error("Failed to insert order as guid duplicated: {}", order.getOrderGuid());
+            throw new IllegalArgumentException("Order with this GUID already exists.");
         }
+        orderRepository.save(order);
         itemRepository.saveAll(items);
     }
 
